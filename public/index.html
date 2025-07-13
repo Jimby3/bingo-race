@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bingo Race</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<!-- ─────────── Join / Create form ─────────── -->
+<div class="join-form" id="joinForm">
+    <input type="text"  id="username" placeholder="Username" required>
+    <input type="text"  id="roomId"   placeholder="Room ID" required>
+
+    <!-- OPTIONS (only visible when creating a room) -->
+    <div id="createOptions" style="display:none;">
+        <button id="backBtn">Back</button>
+        <textarea id="boardData" rows="4"
+                  placeholder="Optional: JSON array of custom goals (one string per square)">
+    </textarea>
+
+        <div class="size-selector">
+            <label for="boardSize">Board Size:</label>
+            <input type="number" id="boardSize" min="2" value="5">
+        </div>
+    </div>
+
+    <div class="form-buttons">
+        <button id="createBtn">Create Room</button>
+        <button id="joinBtn">Join Room</button>
+    </div>
+</div>
+
+<!-- ─────────── Game Screen ─────────── -->
+<div id="gameContainer" style="display:none;">
+    <div class="game-header">
+        <h2 id="roomLabel"></h2>
+
+        <!-- live stopwatch -->
+        <div id="timer" class="timer">00:00</div>
+
+        <div id="playersList" class="players-list"></div>
+
+        <!-- only the room creator sees this -->
+        <button id="startBtn" style="display:none;">Start Game</button>
+    </div>
+
+    <div class="game-content">
+        <!-- bingo board -->
+        <div id="board"></div>
+
+        <!-- sidebar: chat + scoreboard -->
+        <div class="sidebar">
+            <!-- Chat -->
+            <div id="chatBox" class="chat-box">
+                <div id="messages" class="messages"></div>
+                <div class="chat-input">
+                    <input type="text" id="messageInput" placeholder="Type a message…">
+                    <button id="sendBtn">Send</button>
+                </div>
+            </div>
+
+            <!-- Scoreboard -->
+            <div class="scoreboard">
+                <h3>Scoreboard</h3>
+                <div id="scores"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

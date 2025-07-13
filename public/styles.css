@@ -1,0 +1,173 @@
+/* ───────────────────────────────
+   GLOBAL LAYOUT / RESET
+   ─────────────────────────────── */
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+    padding:20px;
+    background:#f0f2f5;
+}
+
+/* ───────── Join / Create form ───────── */
+.join-form{
+    max-width:400px;
+    margin:100px auto;
+    padding:20px;
+    background:#fff;
+    border-radius:8px;
+    box-shadow:0 2px 4px rgba(0,0,0,.1);
+}
+.form-buttons{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-top:15px;
+}
+
+/* Extra options collapsible area */
+#createOptions{
+    margin:15px 0;
+    padding:10px;
+    border:1px solid #ddd;
+    border-radius:4px;
+}
+#boardData{
+    width:100%;
+    margin:10px 0;
+    padding:8px;
+    border:1px solid #ddd;
+    border-radius:4px;
+    font-family:monospace;
+}
+.size-selector{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+#boardSize{
+    padding:5px;
+    border-radius:4px;
+}
+#toggleOptions{
+    background:#607D8B;
+    color:#fff;
+    border:none;
+    padding:6px 12px;
+    border-radius:4px;
+    cursor:pointer;
+}
+
+/* ───────── Game container ───────── */
+#gameContainer{
+    max-width:1200px;
+    margin:0 auto;
+}
+
+/* Top bar with room label, timer, players, start button */
+.game-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;            /* spacing between header items */
+    margin-bottom:20px;
+}
+
+/* Stopwatch */
+.timer{
+    min-width:80px;
+    font-size:1.2rem;
+    font-weight:bold;
+    text-align:center;
+}
+
+/* Two-column layout: board | sidebar */
+.game-content{
+    display:grid;
+    grid-template-columns:1fr 300px;
+    gap:20px;
+}
+
+/* Player tags strip */
+.players-list{
+    display:flex;
+    gap:10px;
+}
+.player-tag{
+    padding:4px 8px;
+    border-radius:4px;
+    color:#fff;
+    font-size:14px;
+}
+
+/* ───────── Board grid ───────── */
+#board{
+    display:grid;
+    gap:4px;
+    background:#fff;
+    padding:20px;
+    border-radius:8px;
+    box-shadow:0 2px 4px rgba(0,0,0,.1);
+}
+.cell{
+    width:80px;
+    height:80px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#fff;
+    border:2px solid #ddd;
+    border-radius:4px;
+    font-size:20px;
+    cursor:pointer;
+    transition:border-color .2s, background-color .2s;
+}
+.cell:hover{
+    border-color:#999;
+}
+.cell.marked{
+    color:#fff;
+    font-weight:bold;
+}
+
+/* ───────── Sidebar ───────── */
+.sidebar{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+/* Chat box */
+.chat-box{
+    height:400px;
+    display:flex;
+    flex-direction:column;
+    background:#fff;
+    border-radius:8px;
+    box-shadow:0 2px 4px rgba(0,0,0,.1);
+}
+.messages{
+    flex-grow:1;
+    padding:10px;
+    overflow-y:auto;
+}
+.chat-input{
+    display:flex;
+    padding:10px;
+    border-top:1px solid #eee;
+}
+.chat-input input{
+    flex-grow:1;
+    margin-right:10px;
+}
+
+/* Scoreboard */
+.scoreboard{
+    background:#fff;
+    padding:15px;
+    border-radius:8px;
+    box-shadow:0 2px 4px rgba(0,0,0,.1);
+}
+
+/* Optional ready-state colour classes kept for future use */
+.ready{background:#4CAF50;}
+.not-ready{background:#f44336;}
