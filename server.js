@@ -13,6 +13,8 @@ app.use(express.static('public'));   // serves index.html, CSS, JS, etc.
 
 /* ──────────────────── In-memory room storage ──────────────────── */
 const rooms = {};
+const ROOM_TIMEOUT = 30 * 60 * 1000; // 30 minutes in milliseconds
+const roomTimers = new Map();
 
 /* ------------------------------------------------------------------
  * generateBoard(size, customData?)
@@ -43,8 +45,16 @@ function generateBoard(size, goalList) {
 
 /* pick an unused colour from palette, fall back to random hex */
 function nextColor(players){
-    const palette = ['#FF6B6B','#4ECDC4','#45B7D1','#96CEB4',
-        '#FFEEAD','#D4A5A5','#9B59B6','#3498DB'];
+    const palette = [
+        '#FF61E6',   // Neon pink
+        '#00FFBB',   // Cyber mint
+        '#84FF3C',   // Electric lime
+        '#FFB938',   // Cosmic orange
+        '#FF4D8C',   // Hot coral
+        '#41CAFF',   // Bright sky blue
+        '#B275FF',   // Bright purple
+        '#FFE668'    // Warm yellow
+    ];
     const used = new Set(players.map(p=>p.color));
     const free = palette.filter(c=>!used.has(c));
     return free.length
@@ -77,6 +87,24 @@ function updateScores(room, roomId) {
     io.to(roomId).emit('scores-updated', { players: room.players });
 }
 
+function resetRoomTimer(roomId) {
+    // Clear existing timer
+    if (roomTimers.has(roomId)) {
+        clearTimeout(roomTimers.get(roomId));
+    }
+
+    // Set new timer
+    const timer = setTimeout(() => {
+        if (rooms[roomId]) {
+            io.to(roomId).emit('room-timeout', 'Room closed due to inactivity');
+            delete rooms[roomId];
+            roomTimers.delete(roomId);
+        }
+    }, ROOM_TIMEOUT);
+
+    roomTimers.set(roomId, timer);
+}
+
 /* ──────────────────── Socket.IO lifecycle ──────────────────── */
 io.on('connection', socket => {
     /* CREATE ROOM ---------------------------------------------------- */
@@ -105,6 +133,7 @@ io.on('connection', socket => {
         socket.emit('room-created', {
             roomId, board: rooms[roomId].board, size, players: rooms[roomId].players
         });
+        resetRoomTimer(roomId);
     });
 
     /* JOIN ROOM ------------------------------------------------------ */
@@ -122,6 +151,7 @@ io.on('connection', socket => {
             board:room.board, size:room.size, players:room.players,
             gameStarted:room.gameStarted
         });
+        resetRoomTimer(roomId);
     });
 
     /* START GAME (creator only) ------------------------------------- */
@@ -161,6 +191,7 @@ io.on('connection', socket => {
         });
 
         updateScores(room, roomId);
+        resetRoomTimer(roomId);
     });
 
     /* CHAT ----------------------------------------------------------- */
@@ -175,17 +206,21 @@ io.on('connection', socket => {
     });
 
     /* DISCONNECT ----------------------------------------------------- */
-    socket.on('disconnect', ()=>{
-        for (const roomId in rooms){
+    socket.on('disconnect', () => {
+        for (const roomId in rooms) {
             const room = rooms[roomId];
-            room.players = room.players.filter(p=>p.id!==socket.id);
+            room.players = room.players.filter(p => p.id !== socket.id);
             io.to(roomId).emit('player-left', room.players);
 
-            /* delete empty room */
-            if (!room.players.length) delete rooms[roomId];
+            if (!room.players.length) {
+                delete rooms[roomId];
+                if (roomTimers.has(roomId)) {
+                    clearTimeout(roomTimers.get(roomId));
+                    roomTimers.delete(roomId);
+                }
+            }
         }
     });
 });
-
 /* start server */
 server.listen(3000, ()=>console.log('Server running on http://localhost:3000'));

@@ -1,173 +1,338 @@
-/* ───────────────────────────────
-   GLOBAL LAYOUT / RESET
-   ─────────────────────────────── */
-body{
-    font-family: Arial, sans-serif;
-    margin:0;
-    padding:20px;
-    background:#f0f2f5;
+/* Dark theme colors and variables */
+:root {
+    --bg-dark: #1a1040;      /* Deep space purple */
+    --bg-card: #2d1f4f;      /* Dark nebula purple */
+    --text-primary: #e2d9ff;  /* Bright starlight */
+    --text-secondary: #9d8cc9;/* Distant star glow */
+    --border-color: #4a3b7f;  /* Cosmic dust */
+    --highlight: #8a4fff;     /* Bright cosmic energy */
+    --shadow: 0 4px 6px rgba(89, 56, 181, 0.3); /* Purple-tinted shadow */
 }
 
-/* ───────── Join / Create form ───────── */
-.join-form{
-    max-width:400px;
-    margin:100px auto;
-    padding:20px;
-    background:#fff;
-    border-radius:8px;
-    box-shadow:0 2px 4px rgba(0,0,0,.1);
-}
-.form-buttons{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    margin-top:15px;
+/* Global reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-/* Extra options collapsible area */
-#createOptions{
-    margin:15px 0;
-    padding:10px;
-    border:1px solid #ddd;
-    border-radius:4px;
-}
-#boardData{
-    width:100%;
-    margin:10px 0;
-    padding:8px;
-    border:1px solid #ddd;
-    border-radius:4px;
-    font-family:monospace;
-}
-.size-selector{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-#boardSize{
-    padding:5px;
-    border-radius:4px;
-}
-#toggleOptions{
-    background:#607D8B;
-    color:#fff;
-    border:none;
-    padding:6px 12px;
-    border-radius:4px;
-    cursor:pointer;
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
 }
 
-/* ───────── Game container ───────── */
-#gameContainer{
-    max-width:1200px;
-    margin:0 auto;
+/* Input and button styles */
+input, textarea, button {
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px;
+    font-size: 14px;
 }
 
-/* Top bar with room label, timer, players, start button */
-.game-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:20px;            /* spacing between header items */
-    margin-bottom:20px;
+button {
+    background: var(--highlight);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.2s;
 }
 
-/* Stopwatch */
-.timer{
-    min-width:80px;
-    font-size:1.2rem;
-    font-weight:bold;
-    text-align:center;
+button:hover {
+    opacity: 0.9;
 }
 
-/* Two-column layout: board | sidebar */
-.game-content{
-    display:grid;
-    grid-template-columns:1fr 300px;
-    gap:20px;
+/* Join/Create form */
+.join-form {
+    max-width: 500px;
+    width: 90%;
+    margin: 50px auto;
+    padding: 30px;
+    background: var(--bg-card);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
 }
 
-/* Player tags strip */
-.players-list{
-    display:flex;
-    gap:10px;
-}
-.player-tag{
-    padding:4px 8px;
-    border-radius:4px;
-    color:#fff;
-    font-size:14px;
+.join-form input {
+    width: 100%;
+    margin-bottom: 15px;
 }
 
-/* ───────── Board grid ───────── */
-#board{
-    display:grid;
-    gap:4px;
-    background:#fff;
-    padding:20px;
-    border-radius:8px;
-    box-shadow:0 2px 4px rgba(0,0,0,.1);
-}
-.cell{
-    width:80px;
-    height:80px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    background:#fff;
-    border:2px solid #ddd;
-    border-radius:4px;
-    font-size:20px;
-    cursor:pointer;
-    transition:border-color .2s, background-color .2s;
-}
-.cell:hover{
-    border-color:#999;
-}
-.cell.marked{
-    color:#fff;
-    font-weight:bold;
+#createOptions {
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
 }
 
-/* ───────── Sidebar ───────── */
-.sidebar{
-    display:flex;
-    flex-direction:column;
-    gap:20px;
+/* Game container */
+#gameContainer {
+    max-width: 1400px;
+    width: 95%;
+    margin: 20px auto;
+    height: calc(100vh - 40px);
+    display: flex;
+    flex-direction: column;
 }
 
-/* Chat box */
-.chat-box{
-    height:400px;
-    display:flex;
-    flex-direction:column;
-    background:#fff;
-    border-radius:8px;
-    box-shadow:0 2px 4px rgba(0,0,0,.1);
-}
-.messages{
-    flex-grow:1;
-    padding:10px;
-    overflow-y:auto;
-}
-.chat-input{
-    display:flex;
-    padding:10px;
-    border-top:1px solid #eee;
-}
-.chat-input input{
-    flex-grow:1;
-    margin-right:10px;
+.game-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 15px 25px;
 }
 
-/* Scoreboard */
-.scoreboard{
-    background:#fff;
-    padding:15px;
-    border-radius:8px;
-    box-shadow:0 2px 4px rgba(0,0,0,.1);
+.game-content {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 20px;
+    flex-grow: 1;
+    min-height: 0;
 }
 
-/* Optional ready-state colour classes kept for future use */
-.ready{background:#4CAF50;}
-.not-ready{background:#f44336;}
+/* Board styles */
+#board {
+    background: var(--bg-card);
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    display: grid;
+    gap: 8px;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1;
+    max-height: min(100%, calc(100vh - 120px));
+    max-width: min(100%, calc(100vh - 120px));
+    margin: 0 auto;
+}
+
+.cell {
+    background: var(--bg-dark);
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 12px;
+    padding: 4px;
+    text-align: center;
+    text-transform: full-width;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: 1;
+    width: 100%;
+    min-width: 0;
+    white-space: normal;
+    overflow-y: auto;
+    overflow-x: hidden;
+    word-break: break-word;
+    scrollbar-width: thin;
+    scrollbar-color: var(--highlight) var(--bg-dark);
+    transition: all 0.2s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.cell::-webkit-scrollbar {
+    width: 4px;
+}
+
+.cell::-webkit-scrollbar-track {
+    background: var(--bg-dark);
+    border-radius: 2px;
+}
+
+.cell::-webkit-scrollbar-thumb {
+    background: var(--highlight);
+    border-radius: 2px;
+}
+
+.cell::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+.cell:hover {
+    border-color: var(--highlight);
+    box-shadow: inset 0 0 0 1px var(--highlight);
+    color: white;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Sidebar components */
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.chat-box {
+    background: var(--bg-card);
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.messages {
+    padding: 15px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.chat-input {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 10px;
+}
+
+.chat-input input {
+    flex-grow: 1;
+}
+
+.scoreboard {
+    background: var(--bg-card);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+/* Player elements */
+.player-tag {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 4px 0;
+    background-color: rgba(0, 0, 0, 0.25);
+    border: 1px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.player-tag span {
+    color: var(--text-primary);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.player-tag .score {
+    margin-left: 8px;
+    opacity: 0.8;
+}
+
+/* Timer */
+.timer {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--bg-dark);
+    padding: 8px 24px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    min-width: 120px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--border-color);
+    box-shadow: var(--shadow);
+    font-family: monospace;
+    letter-spacing: 0.05em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .game-content {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        flex-direction: row;
+        height: 300px;
+    }
+
+    .chat-box, .scoreboard {
+        flex: 1;
+    }
+}
+
+/* Add these styles to your styles.css */
+.players-box {
+    background: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.players-box .players-list {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.scoreboard {
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+}
+
+.scoreboard h3 {
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+@media (max-width: 1024px) {
+    .sidebar {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .players-box, .chat-box {
+        width: 100%;
+    }
+}
+
+/* Improved start button */
+#startBtn {
+    margin-left: auto;
+    background: var(--highlight);
+    font-size: 0.9rem;
+    padding: 8px 16px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Improved scoreboard */
+.scoreboard {
+    margin-top: 10px;
+}
+
+.scoreboard h3 {
+    margin-bottom: 15px;
+}
+
+.scoreboard div {
+    display: flex;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-weight: 500;
+}
+
+.scoreboard div span.score {
+    font-weight: 600;
+    font-size: 1.1em;
+}

@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -17,7 +16,7 @@
         <button id="backBtn">Back</button>
         <textarea id="boardData" rows="4"
                   placeholder="Optional: JSON array of custom goals (one string per square)">
-    </textarea>
+        </textarea>
 
         <div class="size-selector">
             <label for="boardSize">Board Size:</label>
@@ -35,13 +34,7 @@
 <div id="gameContainer" style="display:none;">
     <div class="game-header">
         <h2 id="roomLabel"></h2>
-
-        <!-- live stopwatch -->
         <div id="timer" class="timer">00:00</div>
-
-        <div id="playersList" class="players-list"></div>
-
-        <!-- only the room creator sees this -->
         <button id="startBtn" style="display:none;">Start Game</button>
     </div>
 
@@ -49,8 +42,17 @@
         <!-- bingo board -->
         <div id="board"></div>
 
-        <!-- sidebar: chat + scoreboard -->
+        <!-- sidebar -->
         <div class="sidebar">
+            <!-- Players and Scoreboard Box -->
+            <div class="players-box">
+                <div id="playersList" class="players-list"></div>
+                <div class="scoreboard">
+                    <h3>Scoreboard</h3>
+                    <div id="scores"></div>
+                </div>
+            </div>
+
             <!-- Chat -->
             <div id="chatBox" class="chat-box">
                 <div id="messages" class="messages"></div>
@@ -58,12 +60,6 @@
                     <input type="text" id="messageInput" placeholder="Type a message…">
                     <button id="sendBtn">Send</button>
                 </div>
-            </div>
-
-            <!-- Scoreboard -->
-            <div class="scoreboard">
-                <h3>Scoreboard</h3>
-                <div id="scores"></div>
             </div>
         </div>
     </div>

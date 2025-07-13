@@ -122,14 +122,17 @@ function createBoard(boardData,size){
 
 function updatePlayers(players){
     playersList.innerHTML = '';
-    scores.innerHTML      = '';
+    scores.innerHTML = '';
 
-    players.forEach(p=>{
-        /* colour tag in header */
+    players.forEach(p => {
+        /* player tag in list */
         const tag = document.createElement('div');
-        tag.className            = 'player-tag';
-        tag.style.backgroundColor = p.color;
-        tag.textContent          = p.username + (p.isCreator?' (Creator)':'');
+        tag.className = 'player-tag';
+        tag.style.color = p.color;
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = p.username + (p.isCreator ? ' (Creator)' : '');
+        tag.appendChild(nameSpan);
         playersList.appendChild(tag);
 
         /* scoreboard line */
@@ -153,10 +156,11 @@ function startTimer(startUtcMs){
         const elapsed = Date.now() - startTimeMs;
         const mins = Math.floor(elapsed/60000);
         const secs = Math.floor((elapsed%60000)/1000);
-        timerLabel.textContent = `${pad(mins)}:${pad(secs)}`;
+        const ms = Math.floor((elapsed%1000)/10);
+        timerLabel.textContent = `${pad(mins)}:${pad(secs)}.${pad(ms)}`;
     }
     tick();
-    timerInterval = setInterval(tick,1000);
+    timerInterval = setInterval(tick,10);
 }
 
 /* =====================================================================
